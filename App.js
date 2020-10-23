@@ -3,18 +3,11 @@ import React, { useState } from 'react'
 import {NavigationContainer} from '@react-navigation/native'
 import AuthRouter from './src/router/AuthRouter'
 import MainRouter from './src/router/MainRouter'
-
-import {createStore} from 'redux'
-import {Provider} from 'react-redux'
-import counterReducer from './src/redux/reducers/counterReducer'
-
-const store = createStore(counterReducer)
+import {connect} from 'react-redux'
 
 
-const App = () => {
-  const [user, setUser] = useState(null)
+const App = ({user}) => {
   return (
-    <Provider store={store}>
       <NavigationContainer >
         <Container>
           {
@@ -25,8 +18,13 @@ const App = () => {
           }
         </Container>
       </NavigationContainer>
-    </Provider>
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return{
+    user : state.user
+  }
+}
+
+export default connect(mapStateToProps)(App);

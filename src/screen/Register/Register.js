@@ -6,7 +6,7 @@ import styles from './RegisterStyle'
 import {connect} from 'react-redux'
 import { addCounter, minCounter } from '../../redux/actions/counterActions'
 
-const Register = ({navigation, bebas, addCounter, minCounter}) => {
+const Register = ({navigation, user}) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -57,7 +57,7 @@ const Register = ({navigation, bebas, addCounter, minCounter}) => {
         <Container>
             <Content style={{padding : 30}}>
                 <View style={{alignItems : 'center'}}>
-                    <Text style={{fontSize : 20, fontWeight : 'bold'}}>Sign Up {bebas.haha}</Text>
+                    <Text style={{fontSize : 20, fontWeight : 'bold'}}>Sign Up</Text>
                 </View>
                 <Form style={styles.formContainer}>
                     <Item stackedLabel style={{marginLeft : 0}} success={error === 'yes'} error={error === 'error'}>
@@ -86,12 +86,7 @@ const Register = ({navigation, bebas, addCounter, minCounter}) => {
                             placeholderTextColor={passError === 'error' ? 'red' : '#707070' }
                             onChangeText={text => changePassword(text)} />
                     </Item>
-                    <Text style={{marginTop : 14, fontSize : 12, fontWeight : '300'}}
-                    onPress={addCounter}>
-                        We'll send email to confirm your mail. Standard message and data rates apply.
-                    </Text>
-                    <Text style={{marginTop : 14, fontSize : 12, fontWeight : '300'}}
-                    onPress={minCounter}>
+                    <Text style={{marginTop : 14, fontSize : 12, fontWeight : '300'}}>
                         We'll send email to confirm your mail. Standard message and data rates apply.
                     </Text>
                 </Form>
@@ -120,17 +115,12 @@ const Register = ({navigation, bebas, addCounter, minCounter}) => {
 }
 
 
-const mapDispatchToProps = {
-    addCounter : addCounter,
-    minCounter : minCounter
-}
-
 
 const mapStateToProps = (state) => {
     return{
-        bebas : state
+        user : state.user
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default connect(mapStateToProps)(Register)
