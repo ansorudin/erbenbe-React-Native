@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
     formContainer : {
-        marginTop : 40,
+        justifyContent : 'center',
         marginBottom : 40
     },
     label : {

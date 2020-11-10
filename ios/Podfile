@@ -8,6 +8,11 @@ target 'erbenebeFront' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
   target 'erbenebeFrontTests' do
     inherit! :complete
     # Pods for testing

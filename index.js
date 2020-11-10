@@ -7,12 +7,14 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 
-import {createStore} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import {Provider} from 'react-redux'
 import rootReducer from './src/redux/reducers';
+import thunk from 'redux-thunk';
 
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(thunk))
+
 
 const Index = () => {
     return(
