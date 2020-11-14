@@ -1,14 +1,16 @@
 import { Icon } from 'native-base'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
 import { apiURL2 } from '../../constant/apiURL'
 import moment from 'moment'
 import HeaderRButton from '../../component/HeaderComponent/HeaderRButton'
 import DetailFeesAndTax from '../SummaryBook/SummaryBookComponent/DetailFeesAndTax'
-import {bookHotel} from './../../redux/actions/transactionActions'
+import {bookHotel, onTransactionMessageDelete} from './../../redux/actions/transactionActions'
+import LottieView from 'lottie-react-native';
 
-const PersonalInfo = ({detailHotel, hotels,navigation, route, bookHotel, user, roomDetail}) => {
+
+const PersonalInfo = ({onTransactionMessageDelete, detailHotel, hotels,navigation, route, bookHotel, user, roomDetail, book}) => {
     const [isEnabled, setIsEnabled] = useState(true);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -33,11 +35,18 @@ const PersonalInfo = ({detailHotel, hotels,navigation, route, bookHotel, user, r
             price : route.params.price,
             hotel_room : route.params.hotel_room,
             hotels_id : detailHotel.data.hotels.id
-
         }
-
         bookHotel(id, data)
     }
+
+    console.log(book)
+
+    useEffect(() => {
+        if(book.message !== null){
+            navigation.navigate('pay-now')
+            onTransactionMessageDelete()
+        }
+    },[book.message])
 
     return (
         <View style={{backgroundColor : 'white', flex : 1}}>
@@ -118,10 +127,19 @@ const PersonalInfo = ({detailHotel, hotels,navigation, route, bookHotel, user, r
             </ScrollView>
             <View style={{height :100, backgroundColor : '#fff', paddingHorizontal : 20, justifyContent : 'center', marginBottom : 20}}>
                 <View >
-                    <TouchableOpacity onPress={onRequestBookBtn} style={{justifyContent : 'center',flexDirection : 'row',alignItems : 'center',paddingHorizontal : 40,paddingVertical : 10,borderRadius : 10, backgroundColor : 'salmon'}}>
-                        <Icon type='EvilIcons' name='lock' style={{color : '#fff'}} />
-                        <Text style={{fontSize : 13, fontWeight : '600', color : '#fff'}}>Request to book - $413</Text>
-                    </TouchableOpacity>
+                    {
+                        book.loading ? 
+                        <TouchableOpacity onPress={onRequestBookBtn} style={{justifyContent : 'center',flexDirection : 'row',alignItems : 'center',paddingHorizontal : 40, height : 45,borderRadius : 10, backgroundColor : 'salmon'}}>
+                            <LottieView  source={require('./../../../asset/threeDotsLoader.json')} autoPlay loop />
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={onRequestBookBtn} style={{justifyContent : 'center',flexDirection : 'row',alignItems : 'center',paddingHorizontal : 40,height : 45,borderRadius : 10, backgroundColor : 'salmon'}}>
+                            <Icon type='EvilIcons' name='lock' style={{color : '#fff'}} />
+                            <Text style={{fontSize : 13, fontWeight : '600', color : '#fff'}}>Request to book - $413</Text>
+                        </TouchableOpacity>
+
+                    }
+                    
                 </View>
             </View>           
             
@@ -139,7 +157,7 @@ const mapStateToProps = (state) => {
     }
   }
 const mapDispatchToProps = {
-    bookHotel
+    bookHotel, onTransactionMessageDelete
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalInfo)

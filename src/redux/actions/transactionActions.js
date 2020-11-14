@@ -1,6 +1,6 @@
 import Axios from "axios"
 import { apiURL2 } from "../../constant/apiURL"
-import { BOOK_ERROR, BOOK_LOADED, BOOK_LOADING, TRANSACTION_ERROR, TRANSACTION_LOADED, TRANSACTION_LOADING, TRX_ERROR, TRX_FAILED_ERROR, TRX_FAILED_LOADED, TRX_FAILED_LOADING, TRX_LOADED, TRX_LOADING } from "../actionTypes"
+import {BOOK_CLEAR, BOOK_ERROR, BOOK_LOADED, BOOK_LOADING, TRANSACTION_ERROR, TRANSACTION_LOADED, TRANSACTION_LOADING, TRX_ERROR, TRX_FAILED_ERROR, TRX_FAILED_LOADED, TRX_FAILED_LOADING, TRX_LOADED, TRX_LOADING } from "../actionTypes"
 
 export const getDataTransactions = (token) => {
     return(dispatch) => {
@@ -116,5 +116,11 @@ export const bookHotel = (id, data) => {
                 payload : err.message
             })
         })
+    }
+}
+
+export const onTransactionMessageDelete = () =>{
+    return{
+        type : BOOK_CLEAR
     }
 }

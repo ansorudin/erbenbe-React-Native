@@ -3,18 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { SafeAreaView, View, Text, Image, ScrollView, TouchableOpacity, TextInput} from 'react-native'
 import CarouselHum from './CarouselHum'
 import {getMostVisited, getPopularLocation} from './../../redux/actions/hotelsActions'
-import {onTrue, onFalse} from './../../redux/actions/optionsActions'
 import { connect } from 'react-redux'
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { apiURL2 } from '../../constant/apiURL'
 
 
-const Home = ({option, onTrue, navigation, mostVisited, getMostVisited, hotels, getPopularLocation, popularLocation}) => {
+const Home = ({option,  navigation, mostVisited, getMostVisited, hotels, getPopularLocation, popularLocation}) => {
     const [location, setLocation] = useState('')
     
     useEffect(() => {
         getMostVisited()
         getPopularLocation()
-        onTrue()
 
     },[])
 
@@ -51,32 +49,35 @@ const Home = ({option, onTrue, navigation, mostVisited, getMostVisited, hotels, 
                         style={{marginTop : 10}}
                         
                     >
-                        <TouchableOpacity
-                        style={{
-                            flexDirection : 'row', backgroundColor : 'rgba(41, 171, 135, 0.7)', paddingVertical : 5, paddingLeft : 10, paddingRight : 15,
-                            borderRadius : 10, marginRight : 5
-                        }}
-                        >
-                            <Icon type='EvilIcons' name='location' style={{fontSize : 17, marginRight : 2,color : 'white', padding : 0}}/>
-                            <Text style={{fontSize : 12, fontWeight : '300', color : 'white'}}>
-                                Near You
-                            </Text>
-                        </TouchableOpacity>
+                        <View style={{borderWidth : 1,marginRight : 10 , borderRadius : 10, padding : 1, borderColor : 'rgba(41, 171, 135, 0.7)'}}>
+                            <View
+                            style={{
+                                flexDirection : 'row', backgroundColor : 'rgba(41, 171, 135, 0.7)', paddingVertical : 5, paddingLeft : 10, paddingRight : 15,
+                                borderRadius : 10, alignItems : 'center'
+                            }}
+                            >
+                                <Icon type='EvilIcons' name='location' style={{fontSize : 17, marginRight : 4,color : 'white', padding : 0}}/>
+                                <Text style={{fontSize : 14, fontWeight : '300', color : 'white'}}>
+                                    Near you
+                                </Text>
+                            </View>
+                        </View>
 
                         {popularLocation.data && popularLocation.data.map((val, index) =>{
                             return(
-                                <TouchableOpacity
-                                onPress={()=> navigation.navigate('datepicker', {location : val.location})}
-                                key={index}
-                                style={{
-                                    backgroundColor : 'rgba(255, 140, 105, 0.7)',
-                                    borderRadius : 10, marginRight : 5,
-                                    width : 90, alignItems : 'center', justifyContent : 'center'
-                                }}
-                                >
-                                    <Text style={{fontSize : 12, fontWeight : '300', color : 'white'}}>
-                                        {val.location}
-                                    </Text>
+                                <TouchableOpacity 
+                                onPress={() => navigation.navigate('datepicker', {location : val.location})}
+                                key={index} style={{borderWidth : 1, marginHorizontal : 5, borderRadius : 10, padding : 1, borderColor : 'rgba(250,128,114 ,0.7)'}}>
+                                    <View
+                                    style={{
+                                        flexDirection : 'row', backgroundColor : 'rgba(250,128,114 , 0.7)', paddingVertical : 5, paddingLeft : 10, paddingRight : 15,
+                                        borderRadius : 10, alignItems : 'center', justifyContent : 'center'
+                                    }}
+                                    >
+                                        <Text style={{fontSize : 14, fontWeight : '300', color : 'white'}}>
+                                            {val.location}
+                                        </Text>
+                                    </View>
                                 </TouchableOpacity>
                             )
                         })}
@@ -86,7 +87,7 @@ const Home = ({option, onTrue, navigation, mostVisited, getMostVisited, hotels, 
 
                 <View style={{marginTop : 50}}>
                     <Text style={{fontSize : 18, fontWeight : '600', letterSpacing : 0.5, marginBottom : 20}}>Most Visited</Text>
-                    <CarouselHum data={mostVisited.data} onPress={() => console.log(mostVisited.data.id)}/>
+                    <CarouselHum data={mostVisited.data} navigation={navigation}/>
                 </View>
 
                 <View style={{marginTop : 30}}>
@@ -99,7 +100,7 @@ const Home = ({option, onTrue, navigation, mostVisited, getMostVisited, hotels, 
                                     <View key={index} style={{}}>
                                         <Image 
                                         style={{height : 160, width : 165, borderRadius : 13, marginBottom : 20}}
-                                        source={require('./../../../asset/hotel1_1.jpeg')} />
+                                        source={{uri : apiURL2 + '/public/city-images/' + val.image_location}} />
 
                                         <View style={{position : 'absolute', bottom : 35, left : 12}}>
                                             <Text style={{fontSize : 16, color : '#fff', fontWeight : '600'}}>
@@ -138,7 +139,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps ={
-    getMostVisited, getPopularLocation, onTrue, onFalse
+    getMostVisited, getPopularLocation, 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -48,6 +48,7 @@ export const TRX_FAILED_ERROR = 'TRX_FAILED_ERROR'
 export const BOOK_LOADING = 'BOOK_LOADING'
 export const BOOK_LOADED = 'BOOK_LOADED'
 export const BOOK_ERROR = 'BOOK_ERROR'
+export const BOOK_CLEAR = 'BOOK_CLEAR'
 
 
 

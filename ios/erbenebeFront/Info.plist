@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Bubuyuq app requires camera access.</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access to pick a photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bubuyuq app requires photo library access.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bubuyuq app requires microphone access.</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

@@ -2,11 +2,12 @@ import React from 'react'
 import { Container, Icon } from 'native-base'
 import { Image,StyleSheet ,SafeAreaView, View, Dimensions, Text, ImageBackground, TouchableOpacity, Animated   } from 'react-native'
 import { ScrollView, } from 'react-native-gesture-handler'
+import { apiURL2 } from '../../../constant/apiURL';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const DetailItem = ({name, address, location}) => {
+const DetailItem = ({name, address, location, facilities, visitedCount}) => {
     return (
         <View style={{alignItems : 'center', marginTop : -150}}>
             <View style={{ width : '85%'}}>
@@ -16,13 +17,13 @@ const DetailItem = ({name, address, location}) => {
                 </View>
 
                 <View style={{marginTop : 5, flexDirection : 'row', alignItems : 'center', justifyContent : 'space-between', width : '100%'}}>
-                    <Text style={{fontSize : 25, fontWeight : '600', color : 'white', }}>
+                    <Text style={{flex :1 ,fontSize : 25, fontWeight : '600', color : 'white', }}>
                         {name}
                     </Text>
-                    <View style={{backgroundColor : 'rgba(150, 150, 150, 0.7)', flexDirection : 'row', alignItems : 'center',paddingHorizontal : 10,paddingVertical : 5, borderRadius : 15}}>
+                    <View style={{flex : 0.5,backgroundColor : 'rgba(150, 150, 150, 0.7)', flexDirection : 'row', alignItems : 'center',paddingHorizontal : 10,paddingVertical : 5, borderRadius : 15, marginLeft : 5}}>
                         <Icon type='EvilIcons' name='exclamation' style={{fontSize : 25, color : '#99ddcc'}}/>
                         <Text style={{marginLeft : 5 ,fontWeight : '600', color : 'white'}}>
-                            781 <Text style={{fontWeight : '300'}}>Visited</Text>
+                            {visitedCount} <Text style={{fontWeight : '300'}}>Visited</Text>
                         </Text>
                     </View>
                 </View>
@@ -53,26 +54,21 @@ const DetailItem = ({name, address, location}) => {
                         </Text>
                         
                     </View>
-                    <View style={{flexDirection : 'row', justifyContent : 'space-between', width : '90%'}}>
-                        <View style={{alignItems : 'center', justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
-                            <Icon type='FontAwesome' name='coffee' style={{ fontSize : 20, color : '#6B8FF7'}} />
+                    <ScrollView horizontal  >
+                        <View style={{flexDirection : 'row',width : '90%'}}>
+                        {
+                            facilities && facilities.map((val, index) => {
+                                return(
+                                    <View key={index} style={{alignItems : 'center', marginHorizontal : 3, justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
+                                        <Image 
+                                        style={{width : 20, height : 20, resizeMode : 'repeat'}}
+                                        source={{uri : apiURL2 + '/public/facilities-images/' + val.icon}} />
+                                    </View>
+                                )
+                            })
+                        }
                         </View>
-                        <View style={{alignItems : 'center', justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
-                            <Icon type='FontAwesome' name='wifi' style={{ fontSize : 20, color : '#6B8FF7'}} />
-                        </View>
-                        <View style={{alignItems : 'center', justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
-                            <Icon type='MaterialIcons' name='local-parking' style={{ fontSize : 20, color : '#6B8FF7'}} />
-                        </View>
-                        <View style={{alignItems : 'center', justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
-                            <Icon type='MaterialIcons' name='fitness-center' style={{ fontSize : 20, color : '#6B8FF7'}} />
-                        </View>
-                        <View style={{alignItems : 'center', justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
-                            <Icon type='MaterialIcons' name='pool' style={{ fontSize : 20, color : '#6B8FF7'}} />
-                        </View>
-                        <View style={{ alignItems : 'center', justifyContent : 'center', height : 40, width : 40, borderWidth : 0.5, borderColor : '#6B8FF7',  backgroundColor : '#E2E9FD', borderRadius : 10, padding : 7 }}>
-                            <Text style={{fontSize : 12, color : '#6B8FF7' }}>+9</Text>
-                        </View>
-                    </View>
+                    </ScrollView>
                 </View>
 
                 <View style={{marginTop : 20}}>

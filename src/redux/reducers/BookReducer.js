@@ -1,4 +1,4 @@
-import { BOOK_ERROR, BOOK_LOADED, BOOK_LOADING } from "../actionTypes"
+import { BOOK_CLEAR, BOOK_ERROR, BOOK_LOADED, BOOK_LOADING } from "../actionTypes"
 
 const data = {
     loading : false,
@@ -14,6 +14,8 @@ const BookReducer = ( state=data, action) => {
             return {loading : false, message : action.payload}
         case BOOK_ERROR : 
             return {...state, loading : false, error : action.payload}
+        case BOOK_CLEAR :
+            return {...state, message : null}
         default :
             return state 
     }

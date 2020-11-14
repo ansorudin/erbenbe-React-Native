@@ -9,49 +9,48 @@ import Animated, {
 import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 import {onChangeDateHotelFilter, onChangeEndDateHotelFilter} from '../../redux/actions/hotelsActions'
-import {onFalse} from '../../redux/actions/optionsActions'
 import {CalendarList} from 'react-native-calendars';
 import moment from 'moment';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
-function DatePicker({onFalse,navigation,hotels, onChangeDateHotelFilter, route, onChangeEndDateHotelFilter}) {
+function DatePicker({navigation,hotels, onChangeDateHotelFilter, route, onChangeEndDateHotelFilter}) {
   const animatedPosition = React.useRef(new Value(0))
   const [pasDiScroll, setPasDiScroll] = useState(false)
-
+  
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   
 
   const selectDate =(day)=> {
     let selectedDate = day.dateString;
 
-    if(hotels.filterDate === '' && hotels.filterEndDate === ''){
+    if(startDate === '' && endDate === ''){
+      setStartDate(selectedDate)
       onChangeDateHotelFilter(selectedDate)
-    }else if(Number(selectedDate.split('-').join('')) < Number(hotels.filterDate.split('-').join(''))){
+    }else if(Number(selectedDate.split('-').join('')) < Number(startDate.split('-').join(''))){
+      setStartDate(selectedDate)
+      setEndDate('')
       onChangeDateHotelFilter(selectedDate)
       onChangeEndDateHotelFilter('')
-    }else if(hotels.filterDate !== '' && hotels.filterEndDate === ''){
+    }else if(startDate !== '' && endDate === ''){
+      setEndDate(selectedDate)
       onChangeEndDateHotelFilter(selectedDate)
     }
-    else if(hotels.filterDate !== '' && hotels.filterEndDate !== ''){
+    else if(startDate !== '' && endDate !== ''){
+      setStartDate(selectedDate)
+      setEndDate('')
       onChangeDateHotelFilter(selectedDate)
       onChangeEndDateHotelFilter('')
     }
   }
-
- 
-  useEffect(() => {
-    onFalse()
-  },[])
-
 
   const opacity = interpolate(animatedPosition.current, {
     inputRange: [0, 1],
     outputRange: [1, 0],
     extrapolate: Extrapolate.CLAMP,
   });
-  
-
   
   return (
     <View style={{flex : 1}}>
@@ -66,7 +65,7 @@ function DatePicker({onFalse,navigation,hotels, onChangeDateHotelFilter, route, 
         <View style={{paddingHorizontal : 30,backgroundColor : 'white', borderTopWidth : 0.5, borderTopColor : 'gray' , height : 110, zIndex : 10, position : 'absolute', bottom : 0, width : windowWidth}}>
             <View style={{flexDirection : 'row', justifyContent : 'space-between', alignItems : 'center', height : '100%'}}>
                 <Text 
-                onPress={() => {onChangeDateHotelFilter(''), onChangeEndDateHotelFilter('')}}
+                onPress={() => {onChangeDateHotelFilter(''), onChangeEndDateHotelFilter(''), setEndDate(''), setStartDate('')}}
                 style={{fontSize : 18, textDecorationLine :'underline'}}>Clear
                 </Text>
                 <TouchableOpacity 
@@ -117,8 +116,8 @@ function DatePicker({onFalse,navigation,hotels, onChangeDateHotelFilter, route, 
                       style={{alignSelf : 'center', marginTop : 13, fontSize : 12}}>
 
                       {
-                      !hotels.filterEndDate&& hotels.filterDate && moment(hotels.filterDate).format("DD MMM") || 
-                      hotels.filterDate && hotels.filterEndDate && moment(hotels.filterDate).format("DD") + ' - ' + moment(hotels.filterEndDate).format("DD MMM") 
+                      !endDate && startDate && moment(startDate).format("DD MMM") || 
+                      startDate && endDate && moment(startDate).format("DD") + ' - ' + moment(endDate).format("DD MMM") 
                       }
 
                     </Text>
@@ -145,8 +144,8 @@ function DatePicker({onFalse,navigation,hotels, onChangeDateHotelFilter, route, 
             minDate={new Date()}
             maxDate={new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + 30)}
             markedDates={{
-              [hotels.filterDate]: {selected: true, marked: true, selectedColor: '#000'},
-              [hotels.filterEndDate]: {selected: true, selectedColor: '#000'},
+              [startDate]: {selected: true, marked: true, selectedColor: '#000'},
+              [endDate]: {selected: true, selectedColor: '#000'},
              
             }}
             
@@ -221,7 +220,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps ={
-  onChangeDateHotelFilter, onFalse, onChangeEndDateHotelFilter
+  onChangeDateHotelFilter, onChangeEndDateHotelFilter
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatePicker

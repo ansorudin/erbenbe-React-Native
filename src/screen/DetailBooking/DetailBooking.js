@@ -1,5 +1,5 @@
 import { Icon } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, Image, Modal, ScrollView, Text, View, TouchableWithoutFeedback, FlatList  } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -7,31 +7,28 @@ import HeaderRButton from '../../component/HeaderComponent/HeaderRButton'
 import CarouselHotelDetail from '../HotelDetail/HotelComponent/CarouselHotelDetail'
 import CheckinCheckoutComponent from '../SummaryBook/SummaryBookComponent/CheckinCheckoutComponent'
 import {getDataTransactionsById} from './../../redux/actions/transactionActions'
-import moment from 'moment'
 import { apiURL2 } from '../../constant/apiURL'
 
 const windowWidth = Dimensions.get('window').width
 const {width} = Dimensions.get('window')
 const height = width * 0.9 // 60%
-const DetailBooking = ({navigation, modalVisible, onPresHeader, onPress, route, trxById, getDataTransactionsById}) => {
+const DetailBooking = ({navigation, onPress, route, trxById, getDataTransactionsById}) => {
 
     useEffect(() => {
         let id = route.params.id
+        
         getDataTransactionsById(id)
     }, [])
-    
 
-    console.log(trxById.data && trxById.data.hotel_images)
+
 
     return (
         <TouchableWithoutFeedback onPress={onPress}>
         <Modal 
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
+        visible={true}
+        
       >
         <View style={{flex : 1, backgroundColor : '#fff'}}>
             <ScrollView>
@@ -82,7 +79,12 @@ const DetailBooking = ({navigation, modalVisible, onPresHeader, onPress, route, 
                         <Text style={{fontWeight : '300', marginTop : 10}}>Total Cost</Text>
                         <View style={{flexDirection : 'row', marginTop : 10, alignItems :'center'}}>
                             <Text style={{fontWeight : '300'}}>IDR {trxById.data && trxById.data.price}</Text>
-                            <Text style={{textDecorationLine : 'underline', marginLeft : 10}}>get receipt</Text>
+                            {
+                                route.params.status !== 'succes' ?
+                                <Text onPress={() => {navigation.navigate('homerouter', { screen: 'pay-now' })}} style={{textDecorationLine : 'underline', marginLeft : 10, color : 'red'}}>pay now</Text>
+                                :
+                                <Text style={{textDecorationLine : 'underline', marginLeft : 10}}>get receipt</Text>
+                            }
                         </View>
                     </View>
                     <View style={{paddingVertical : 30}}>

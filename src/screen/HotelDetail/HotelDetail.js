@@ -7,7 +7,6 @@ import HeaderRLButton from './../../component/HeaderComponent/HeaderRLButton'
 import DetailItem from './HotelComponent/DetailItem';
 import DetailRooms from './HotelComponent/DetailRooms';
 import {getDataById} from '../../redux/actions/hotelsActions'
-import {onFalse} from '../../redux/actions/optionsActions'
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -15,7 +14,7 @@ const windowHeight = Dimensions.get('window').height;
 
 
 
-const HotelDetail = ({navigation, route, detailHotel, getDataById, onFalse}) => {
+const HotelDetail = ({navigation, route, detailHotel, getDataById}) => {
     const [backgroundHeader, setBackgroundHeader] = useState('transparent')
     
     useEffect(() => {
@@ -23,10 +22,10 @@ const HotelDetail = ({navigation, route, detailHotel, getDataById, onFalse}) => 
         let startDate = route.params.startDate
         let endDate = route.params.endDate
         getDataById(id, startDate, endDate)
-        onFalse()
+
     }, [])
     
-    // 
+    console.log(detailHotel.data)
     return (
         <ScrollView
             stickyHeaderIndices={[0]}
@@ -35,7 +34,7 @@ const HotelDetail = ({navigation, route, detailHotel, getDataById, onFalse}) => 
             style={{backgroundColor : 'white'}}
         >
             <View>
-                <HeaderRLButton onPress={() => {navigation.navigate('home'), onFalse()} } backgroundHeader={backgroundHeader} />
+                <HeaderRLButton onPress={() => {navigation.navigate('home')} } backgroundHeader={backgroundHeader} />
             </View>
             <View style={{marginTop : -100, zIndex : -1}}>
                 <CarouselHotelDetail images={detailHotel.data && detailHotel.data.hotelImages} />
@@ -43,7 +42,11 @@ const HotelDetail = ({navigation, route, detailHotel, getDataById, onFalse}) => 
             <DetailItem 
             location={detailHotel.data && detailHotel.data.hotels.location} 
             name={detailHotel.data && detailHotel.data.hotels.name}
-            address={detailHotel.data && detailHotel.data.hotels.address} />
+            address={detailHotel.data && detailHotel.data.hotels.address} 
+            facilities={detailHotel.data && detailHotel.data.facilities}
+            visitedCount={detailHotel.data && detailHotel.data.hotels.visited}
+            
+            />
             <View style={{paddingHorizontal : 30, marginTop : 20}}>
                 <Text style={{fontSize : 18, fontWeight : '600'}}>
                     Select Room
@@ -72,7 +75,7 @@ const mapStateToProps = (state) => {
   }
   
   const mapDispatchToProps ={
-    getDataById, onFalse
+    getDataById,
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HotelDetail)

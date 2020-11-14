@@ -1,11 +1,15 @@
+import moment from 'moment'
 const {HOTELS_LOADING, HOTELS_LOADED, HOTELS_ERROR, SORT_PRICE_ASC, CHANGE_DATE_FILTER_HOTEL, CHANGE_DATE_END_FILTER_HOTEL} = require("../actionTypes")
 
+let dateNow = new Date()
+
+
 const data = {
-    loading : false,
+    loading : true,
     data : null,
     error : null,
-    filterDate : '',
-    filterEndDate : ''
+    filterDate : moment(dateNow).format('YYYY-MM-DD') ,
+    filterEndDate : moment(dateNow).add(1,'days').format('YYYY-MM-DD')
 }
 
 const hotelReducer = (state=data, action) => {

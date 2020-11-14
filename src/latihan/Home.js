@@ -14,6 +14,7 @@ const Home = ({hotels, getAllHotels, sortHotelByPriceAsc}) => {
     
     useEffect(() => {
         getAllHotels()
+
     }, [])
     
 

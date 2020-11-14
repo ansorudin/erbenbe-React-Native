@@ -7,28 +7,6 @@ import { apiURL2 } from '../../constant/apiURL'
 import { tutorial2Spec } from './../../latihan/theme'
 
 
-const images = [
-    {
-        id : 1,
-        image : 'https://images.unsplash.com/photo-1604061717335-c901536abfaf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80',
-    },
-    {
-        id : 2,
-        image : 'https://images.unsplash.com/photo-1569119523023-81ee19ceeb7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=2102&q=80',
-    },
-    {
-        id : 3,
-        image : 'https://images.unsplash.com/photo-1569119549561-60eea1194a21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
-    },
-    {
-        id : 4,
-        image : 'https://images.unsplash.com/photo-1578592299806-90109a85febf?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
-    },
-    {
-        id : 5,
-        image : 'https://images.unsplash.com/photo-1581967600327-29c5cdc8095e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80'
-    }]
-
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
@@ -38,8 +16,10 @@ const SPACING = 10
 const FULL_SIZE = ITEM_WIDTH + SPACING * 2
 
 
-const CarouselHum = ({data, onPress}) => {
+const CarouselHum = ({data, onPress, navigation}) => {
     const scrollX = React.useRef(new Animated.Value(0)).current
+
+    
     return (
             <Animated.FlatList 
                 horizontal
@@ -69,7 +49,7 @@ const CarouselHum = ({data, onPress}) => {
                         outputRange : [1, 1.1, 1]
                     })
                     return <TouchableOpacity
-                        
+                        onPress={() => navigation.navigate('hoteldetail', {id : item.id, startDate : '2020-11-30', endDate : '2020-12-01'})}
                         style={styles.itemContainer}
                     >
                         <View style={[StyleSheet.absoluteFillObject, {overflow : 'hidden', borderRadius : 10}]}>

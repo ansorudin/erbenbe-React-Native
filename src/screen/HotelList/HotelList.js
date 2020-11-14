@@ -14,6 +14,8 @@ import CardComponent from '../../component/CardComponent/CardComponent'
 import {getAllHotels, sortHotelByPriceAsc} from '../../redux/actions/hotelsActions'
 import {onTrue, onFalse} from '../../redux/actions/optionsActions'
 import moment from 'moment'
+import LottieView from 'lottie-react-native';
+
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -23,17 +25,27 @@ function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route,
 
   useEffect(() => {
     let location = route.params.location
-    let startDate = route.params.startDate
-    let endDate = route.params.endDate
+    let startDate = hotels.filterDate
+    let endDate = hotels.filterEndDate
     getAllHotels(location, startDate, endDate)
   }, [])
   
+
   const textKosong =()=>(
     <View style={[{height : 200,width : windowWidth /1.2, justifyContent : 'flex-start', alignItems : 'flex-start', marginLeft : 5}]}>
-        <Text style={{fontSize : 20, fontWeight : '600'}}>No result</Text>
-        <Text style={{fontSize : 13, fontWeight : '300', marginTop : 5}}>We couldn't find anything matching your seacrh. Try searching other keyword.</Text>
+      {
+        hotels.loading && hotels.data === null ? 
+          <LottieView  source={require('./../../../asset/threeDotsLoader.json')} autoPlay loop />
+        :
+          <View>
+            <Text style={{fontSize : 20, fontWeight : '600'}}>No result</Text>
+            <Text style={{fontSize : 13, fontWeight : '300', marginTop : 5}}>We couldn't find anything matching your seacrh. Try searching other keyword.</Text>
+          </View>
+
+      }
     </View>
   )
+
   const margin = interpolate(animatedPosition.current, {
     inputRange: [0, 0.5, 1],
     outputRange: [25 , 25, 0],
@@ -70,7 +82,7 @@ function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route,
           <View style={{flexDirection : 'row', marginHorizontal : 5, paddingVertical : 5}}>
 
             <View style={{flexDirection : 'row', alignItems : 'center', flex : 1.5, }}>
-              <Icon onPress={() => navigation.navigate('home')} type='MaterialIcons' name='navigate-before' style={{fontSize : 25}}/>
+              <Icon onPress={() => {navigation.navigate('home'), onTrue()}} type='MaterialIcons' name='navigate-before' style={{fontSize : 25}}/>
               <Text style={{fontSize : 16, marginLeft : 10, fontWeight : '600'}}>{route.params.location}</Text>
             </View>
 
@@ -104,7 +116,7 @@ function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route,
             <View style={styles.panelHandle} />
 
             <View style={{justifyContent : 'center',borderBottomWidth : 0.3, width : windowWidth / 1.15, height : 58, alignItems : 'center'}}>
-                <Text style={{fontWeight : '600', fontSize : 17, marginHorizontal : 10}}>
+                <Text onPress={() => navigation.setOptions({tabBarVisible : false}) } style={{fontWeight : '600', fontSize : 17, marginHorizontal : 10}}>
                     300+ places to stay
                 </Text>
             </View>
