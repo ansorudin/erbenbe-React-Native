@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onSaveToken } from './src/redux/actions/userActions'
 import SpalshScreen from './src/screen/SpalshScreen/SpalshScreen'
 import PayNow from './src/screen/PersonalInfo/PaymentComponent/PayNow'
+import LatihanMaps from './src/latihan/LatihanMaps'
 
 
 const App = ({user, onSaveToken}) => {
@@ -72,13 +73,13 @@ const App = ({user, onSaveToken}) => {
   return (
       <NavigationContainer linking={linkingOption} >
         <Container>
-          {
+          {/* {
             user.token !== '' ? 
             <MainRouter />
             :
             <AuthRouter />
-          }
-
+          } */}
+          <LatihanMaps />
         </Container>
       </NavigationContainer>
   )
