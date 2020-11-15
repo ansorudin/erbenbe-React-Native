@@ -2,6 +2,7 @@ import Axios from 'axios'
 import { Icon, Item } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import { FlatList, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { keyMap } from '../constant/keyGoogle'
 import { getPredictionList } from './LatihanFetchMaps'
 
 
@@ -13,7 +14,7 @@ const MapsAutoComplete = () => {
 
     const onChangeAddressBox = (text) => {
         console.warn(text)
-        let key = 'AIzaSyCk3A066aj1OmIre0MGrtu0rlxVWYAqvgE'
+        let key = keyMap
         Axios.post(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${text}&types=(cities)&language=ENG&key=${key}`)
         .then((res) => {
             setData(res.data.predictions)
@@ -24,7 +25,7 @@ const MapsAutoComplete = () => {
     }
 
 const onClickAddress = (place_id) => {
-    let key = 'AIzaSyCk3A066aj1OmIre0MGrtu0rlxVWYAqvgE'
+    let key = keyMap
     Axios.post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&key=${key}`)
     .then((res) => {
         console.log(res)
