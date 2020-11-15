@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {StatusBar,ImageBackground , Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Animated, {
@@ -15,13 +15,43 @@ import {getAllHotels, sortHotelByPriceAsc} from '../../redux/actions/hotelsActio
 import {onTrue, onFalse} from '../../redux/actions/optionsActions'
 import moment from 'moment'
 import LottieView from 'lottie-react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
+let loc = {
+  "bounds": {
+      "northeast": {
+          "lat": -6.839277999999999,
+          "lng": 107.7387141
+      },
+      "southwest": {
+          "lat": -6.9676209,
+          "lng": 107.547601
+      }
+  },
+  "location": {
+      "lat": -6.9174639,
+      "lng": 107.6191228
+  }
+}
+
 function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route, onFalse, onTrue}) {
   const animatedPosition = React.useRef(new Value(0))
+  const [enabledScroll, setEnabledScroll] = useState(false)
+  
+
+  const { width, height } = Dimensions.get('window');
+  const ASPECT_RATIO = width / height;
+
+  const lat = parseFloat(loc.location.lat);
+  const lng = parseFloat(loc.location.lng);
+  const northeastLat = parseFloat(loc.bounds.northeast.lat);
+  const southwestLat = parseFloat(loc.bounds.southwest.lat);
+  const latDelta = northeastLat - southwestLat;
+  const lngDelta = latDelta * ASPECT_RATIO;
 
   useEffect(() => {
     let location = route.params.location
@@ -75,7 +105,19 @@ function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route,
 
   return (
     <View style={{flex : 1}}>
-    <ImageBackground source={require('./../../../asset/maps.png')} style={[styles.container]}>
+    <MapView
+      scrollEnabled={enabledScroll}
+      // provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+      style={[styles.map]}
+      onTouchStart={() => console.warn('akakak')}
+      region={{
+          latitude: lat,
+          longitude: lng,
+          latitudeDelta: latDelta,
+          longitudeDelta: lngDelta,
+    }}
+    >
+    </MapView>
       <Animated.View style={{ zIndex : 1, height : 120, justifyContent : 'flex-end'}}>
         <Animated.View 
         style={[styles.containerSearchBar,{shadowOpacity: opacity ,  flexGrow : clr, borderBottomWidth : borderBtm , borderRadius: radius, marginHorizontal : margin}]}>
@@ -111,6 +153,8 @@ function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route,
             onTrue()
           }
         }}
+      
+        
         renderHandle={() => (
           <View style={styles.header}>
             <View style={styles.panelHandle} />
@@ -143,8 +187,6 @@ function HotelList({hotels, getAllHotels, sortHotelByPriceAsc, navigation,route,
         keyExtractor={item => item.id.toString()}
         contentContainerStyle={styles.contentContainerStyle}
       />
-      
-    </ImageBackground>
     </View>
   );
 }
@@ -190,7 +232,10 @@ const styles = StyleSheet.create({
     shadowColor: '#000', 
     shadowOffset: { width: 0, height: 0 }, 
     shadowRadius: 1 
-  }
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
 });
 
 

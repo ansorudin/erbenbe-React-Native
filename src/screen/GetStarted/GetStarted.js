@@ -31,10 +31,10 @@ const GetStarted = ({navigation}) => {
                         iterationDelay={1000}
                         >
                             <Text style={{fontSize : 40, fontWeight : 'bold', color : '#f6ab6c', letterSpacing : 4}}>
-                                KAMARS
+                                BUBUYUQ
                             </Text>
                             <Text style={styles.logo}>
-                                KAMARS
+                                BUBUYUQ
                             </Text>
                         </Animatable.View>
                         

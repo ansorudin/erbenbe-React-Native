@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styles from './RegisterStyle'
 import {connect} from 'react-redux'
 import {onUserRegister, onErrorDelete} from './../../redux/actions/userActions'
-import {Dimensions, ImageBackground, SafeAreaView} from 'react-native'
+import {Dimensions, ImageBackground, SafeAreaView, StatusBar} from 'react-native'
 import {image2} from './../../support/image'
 import * as Animatable from 'react-native-animatable';
 
@@ -73,7 +73,7 @@ const Register = ({navigation, user, onUserRegister, onErrorDelete}) => {
                 </View>
 
                 <Animatable.View 
-                style={{flex : 1, borderTopLeftRadius : 40, borderTopRightRadius : 40, padding : 30, backgroundColor : 'rgba(255,255,255,0.6)'}}
+                style={{flex : 1, borderTopLeftRadius : 40, borderTopRightRadius : 40, padding : 30, backgroundColor : '#fff'}}
                 animation='fadeInUp'
                 >
                     <Form style={[styles.formContainer, {marginTop : 10}]}>
@@ -123,7 +123,7 @@ const Register = ({navigation, user, onUserRegister, onErrorDelete}) => {
 
                     <View style={{marginTop : 60, alignItems : 'center'}}>
                         <Text 
-                        onPress={() => {navigation.navigate('login'), onErrorDelete()}}
+                        onPress={() => {navigation.push('login'), onErrorDelete()}}
                         style={{fontSize : 14}}
                         >
                             Already have an Account ? Login here

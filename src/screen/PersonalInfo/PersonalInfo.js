@@ -13,6 +13,7 @@ import LottieView from 'lottie-react-native';
 const PersonalInfo = ({onTransactionMessageDelete, detailHotel, hotels,navigation, route, bookHotel, user, roomDetail, book}) => {
     const [isEnabled, setIsEnabled] = useState(true);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [backgroundHeader, setBackgroundHeader] = useState('transparent')
 
     const totalDay = useRef((Number(hotels.filterEndDate.split('-').join('')) - Number(hotels.filterDate.split('-').join(''))))
 
@@ -51,12 +52,16 @@ const PersonalInfo = ({onTransactionMessageDelete, detailHotel, hotels,navigatio
     return (
         <View style={{backgroundColor : 'white', flex : 1}}>
             
-            <ScrollView>
+            <ScrollView
+            style={{backgroundColor : '#fff'}}
+            stickyHeaderIndices={[0]}
+            onScroll={(event) => event.nativeEvent.contentOffset.y >= 55 ? setBackgroundHeader('white') : setBackgroundHeader('transparent') }
+            scrollEventThrottle={16}
+            >
+                <HeaderRButton nameIcon='chevron-left' onPress={() => navigation.navigate('summarybook')} backgroundHeader={backgroundHeader} />
                 <View>
                     <View>
-                        <HeaderRButton onPress={() => navigation.navigate('summarybook')} />
-                        <View style={{paddingHorizontal : 20, flexDirection : 'row', alignItems : 'center'}}>
-                            
+                        <View style={{marginTop : 30,paddingHorizontal : 20, flexDirection : 'row', alignItems : 'center'}}>
                             <Text style={{fontWeight : '300', fontSize : 20}}>Confirm and pay</Text>
                         </View>
                     </View>

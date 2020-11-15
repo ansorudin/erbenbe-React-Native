@@ -29,7 +29,7 @@ const DetailHotelRoom = ({navigation, route, roomDetail, getRoomsById,}) => {
         onScroll={(event) => event.nativeEvent.contentOffset.y >= 55 ? setBackgroundHeader('white') : setBackgroundHeader('transparent') }
         scrollEventThrottle={16}
         >
-            <HeaderRButton onPress={() => navigation.navigate('hoteldetail') } backgroundHeader={backgroundHeader} />
+            <HeaderRButton nameIcon='chevron-left' onPress={() => navigation.navigate('hoteldetail') } backgroundHeader={backgroundHeader} />
 
             <View style={{alignItems : 'center',flexDirection : 'row',marginTop : 30,marginBottom : 20,  paddingHorizontal : 20}}>
                 <View>

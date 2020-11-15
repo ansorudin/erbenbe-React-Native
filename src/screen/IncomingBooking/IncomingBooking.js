@@ -19,7 +19,11 @@ const IncomingBooking = ({navigation, transaction, getDataTransactions, user, bo
     
     return (
         <View style={{backgroundColor : '#fff', marginBottom : 100, flex : 1}}>
-            <ScrollView>
+            <ScrollView
+            contentContainerStyle={{paddingBottom : 120}}
+            showsVerticalScrollIndicator={false}
+            
+            >
                 {
                 transaction.data && transaction.data.map((val, index) => {
                     return(
@@ -32,6 +36,7 @@ const IncomingBooking = ({navigation, transaction, getDataTransactions, user, bo
                         hotelImage={val.hotel_images.split(',')[0]}
                         onPress={() => navigation.navigate('detail-booking', {id : val.id, status : val.status, onModal : true})}
                         paid={val.status}
+                        onPresToPay={() => {navigation.navigate('homerouter', { screen: 'pay-now' })}}
                         />
                     )
                 })

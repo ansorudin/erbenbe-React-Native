@@ -45,7 +45,7 @@ const Login = ({navigation, user, onUserLogin, onErrorDelete, onEmailChange, onP
                 </View>
 
                 <Animatable.View 
-                style={{flex : 1, borderTopLeftRadius : 40, borderTopRightRadius : 40, padding : 30, backgroundColor : 'white', opacity : 0.8}}
+                style={{flex : 1, borderTopLeftRadius : 40, borderTopRightRadius : 40, padding : 30, backgroundColor : 'white'}}
                 animation='fadeInUp'
                 >
                     <Form style={[styles.formContainer, {marginTop : 15}]}>
@@ -96,7 +96,7 @@ const Login = ({navigation, user, onUserLogin, onErrorDelete, onEmailChange, onP
 
                     <View style={{marginTop : 70, alignItems : 'center'}}>
                         <Text 
-                        onPress={() => {navigation.navigate('register'), onErrorDelete()}}
+                        onPress={() => {navigation.push('register'), onErrorDelete()}}
                         style={{fontSize : 14}}
                         >
                             Don't have an account ? Register here

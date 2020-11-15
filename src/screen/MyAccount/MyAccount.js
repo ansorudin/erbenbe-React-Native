@@ -1,6 +1,6 @@
 import { Button, Container, Content, Icon, Text, Thumbnail, View, ActionSheet, Root } from 'native-base'
 import React, { useState } from 'react'
-import { ScrollView, ActionSheetIOS } from 'react-native'
+import { ScrollView, ActionSheetIOS, Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {onRemoveToken} from './../../redux/actions/userActions'
 import { connect } from 'react-redux';
@@ -35,7 +35,7 @@ const onBtn = () => {
 
 
 const openOnsheet = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
+    Platform.OS === 'ios' && ActionSheetIOS.showActionSheetWithOptions(
       {
         options: ["Cancel", "Open Camera", "From Gallery"],
         cancelButtonIndex: 0

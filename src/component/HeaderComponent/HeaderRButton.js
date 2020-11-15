@@ -5,12 +5,13 @@ import { Dimensions, TouchableOpacity, View, StyleSheet } from 'react-native'
 
 const windowWidth = Dimensions.get('window').width;
 
-const HeaderRButton = ({backgroundHeader, onPress}) => {
+const HeaderRButton = ({backgroundHeader, onPress, nameIcon}) => {
     return (
         <View style={[styles.HeaderContainer, {backgroundColor : backgroundHeader}]}>
             <View style={styles.HeaderInnerContainer}>
                 <TouchableOpacity onPress={onPress} style={styles.buttonClose}>
-                    <Icon type='MaterialIcons' name='chevron-left' style={{ fontSize : 20, color : 'black'}} />
+                    <Icon type='MaterialIcons' name={nameIcon} style={{ fontSize : 20, color : 'black'}} />
+                    
                 </TouchableOpacity>
             </View>
         </View>

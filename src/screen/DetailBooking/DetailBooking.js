@@ -13,6 +13,7 @@ const windowWidth = Dimensions.get('window').width
 const {width} = Dimensions.get('window')
 const height = width * 0.9 // 60%
 const DetailBooking = ({navigation, onPress, route, trxById, getDataTransactionsById}) => {
+    const [backgroundHeader, setBackgroundHeader] = useState('transparent')
 
     useEffect(() => {
         let id = route.params.id
@@ -31,9 +32,14 @@ const DetailBooking = ({navigation, onPress, route, trxById, getDataTransactions
         
       >
         <View style={{flex : 1, backgroundColor : '#fff'}}>
-            <ScrollView>
-                <HeaderRButton onPress={() => navigation.goBack(null)} />
-                <View style={{paddingHorizontal : 20, marginBottom : 100}}>
+            <ScrollView
+            style={{backgroundColor : '#fff'}}
+            stickyHeaderIndices={[0]}
+            onScroll={(event) => event.nativeEvent.contentOffset.y >= 55 ? setBackgroundHeader('white') : setBackgroundHeader('transparent') }
+            scrollEventThrottle={16}
+            >
+                <HeaderRButton nameIcon='close' onPress={() => navigation.goBack(null)} backgroundHeader={backgroundHeader} />
+                <View style={{paddingHorizontal : 20, marginBottom : 100, marginTop : 40}}>
                     
                     <ScrollView
                         horizontal
@@ -81,7 +87,7 @@ const DetailBooking = ({navigation, onPress, route, trxById, getDataTransactions
                             <Text style={{fontWeight : '300'}}>IDR {trxById.data && trxById.data.price}</Text>
                             {
                                 route.params.status !== 'succes' ?
-                                <Text onPress={() => {navigation.navigate('homerouter', { screen: 'pay-now' })}} style={{textDecorationLine : 'underline', marginLeft : 10, color : 'red'}}>pay now</Text>
+                                <Text onPress={() => {navigation.navigation('homerouter', { screen: 'pay-now' })}} style={{textDecorationLine : 'underline', marginLeft : 10, color : 'red'}}>pay now</Text>
                                 :
                                 <Text style={{textDecorationLine : 'underline', marginLeft : 10}}>get receipt</Text>
                             }

@@ -9,6 +9,7 @@ import { onSaveToken } from './src/redux/actions/userActions'
 import SpalshScreen from './src/screen/SpalshScreen/SpalshScreen'
 import PayNow from './src/screen/PersonalInfo/PaymentComponent/PayNow'
 import LatihanMaps from './src/latihan/LatihanMaps'
+import MapsAutoComplete from './src/latihan/MapsAutoComplete'
 
 
 const App = ({user, onSaveToken}) => {
@@ -73,13 +74,14 @@ const App = ({user, onSaveToken}) => {
   return (
       <NavigationContainer linking={linkingOption} >
         <Container>
-          {/* {
+          {
             user.token !== '' ? 
             <MainRouter />
             :
             <AuthRouter />
-          } */}
-          <LatihanMaps />
+          }
+          {/* <MapsAutoComplete /> */}
+          {/* <LatihanMaps /> */}
         </Container>
       </NavigationContainer>
   )

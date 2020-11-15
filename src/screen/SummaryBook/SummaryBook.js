@@ -11,6 +11,7 @@ import DetailFeesAndTax from './SummaryBookComponent/DetailFeesAndTax'
 const SummaryBook = ({navigation, detailHotel, roomDetail, route, hotels}) => {
     
     const totalDay = useRef((Number(hotels.filterEndDate.split('-').join('')) - Number(hotels.filterDate.split('-').join(''))))
+    const [backgroundHeader, setBackgroundHeader] = useState('transparent')
 
     let data = {
         roomName : route.params.roomDetail.name,
@@ -22,14 +23,18 @@ const SummaryBook = ({navigation, detailHotel, roomDetail, route, hotels}) => {
         id_room : route.params.id_room
     }
 
-    console.log(data.id_room)
 
     return (
         <View style={styles.container}>
-            <ScrollView>
+            <ScrollView
+            style={{backgroundColor : '#fff'}}
+            stickyHeaderIndices={[0]}
+            onScroll={(event) => event.nativeEvent.contentOffset.y >= 55 ? setBackgroundHeader('white') : setBackgroundHeader('transparent') }
+            scrollEventThrottle={16}
+            >
+                <HeaderRButton nameIcon='chevron-left' onPress={() => navigation.navigate('roomdetail')} backgroundHeader={backgroundHeader} />
                 <View>
                     <View>
-                        <HeaderRButton onPress={() => navigation.navigate('roomdetail')} />
                         <View style={styles.containerTextHeader}>
                             <Text style={styles.textHeader}>Detail Booking</Text>
                         </View>
@@ -103,7 +108,8 @@ const styles = StyleSheet.create({
     containerTextHeader : {
         paddingHorizontal : 20, 
         flexDirection : 'row', 
-        alignItems : 'center'
+        alignItems : 'center',
+        marginTop : 30
     },
     textHeader : {
         fontWeight : '300', 
